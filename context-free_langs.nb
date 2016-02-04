@@ -10,19 +10,14 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    139201,       3305]
-NotebookOptionsPosition[    134982,       3162]
-NotebookOutlinePosition[    135328,       3177]
-CellTagsIndexPosition[    135285,       3174]
+NotebookDataLength[    141866,       3382]
+NotebookOptionsPosition[    137578,       3237]
+NotebookOutlinePosition[    137915,       3252]
+CellTagsIndexPosition[    137872,       3249]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
-
-Cell[CellGroupData[{
-Cell["Chomsky normal form and CKY algorithm", "Subchapter",
- CellChangeTimes->{{3.6415344286344433`*^9, 3.64153444028611*^9}}],
-
 Cell[BoxData[{
  RowBox[{"ClearAll", "@", 
   RowBox[{"Evaluate", "[", 
@@ -30,17 +25,69 @@ Cell[BoxData[{
     RowBox[{"Context", "[", "]"}], "<>", "\"\<*\>\""}], 
    "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"Backslash", "=", "Complement"}], ";"}]}], "Input",
+  RowBox[{"Backslash", 
+   RowBox[{"(*", "\[Backslash]", "*)"}], "=", "Complement"}], ";"}]}], "Input",\
+
  InitializationCell->True,
  CellChangeTimes->{{3.6367841146395144`*^9, 3.6367843176221247`*^9}, {
   3.636784356096325*^9, 3.636784748095746*^9}, {3.6367855914009805`*^9, 
   3.636785648168227*^9}, {3.6367857343441563`*^9, 3.6367858333938217`*^9}, {
   3.6367859318894553`*^9, 3.636785935161642*^9}, {3.636786786971363*^9, 
-  3.6367868396393757`*^9}, {3.636800481016714*^9, 3.6368005045470595`*^9}}],
+  3.6367868396393757`*^9}, {3.636800481016714*^9, 3.6368005045470595`*^9}, {
+  3.663577751592433*^9, 3.663577816236923*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Chomsky normal form and CKY algorithm", "Subchapter",
+ CellChangeTimes->{{3.6415344286344433`*^9, 3.64153444028611*^9}}],
+
+Cell[TextData[{
+ "Context-free grammar is ",
+ Cell[BoxData[
+  FormBox["G", TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " defined as ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"(", 
+    RowBox[{"V", ",", "\[CapitalSigma]", ",", "P", ",", "S"}], ")"}], 
+   TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " where\n",
+ Cell[BoxData[
+  FormBox["V", TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " is a finite set of non-terminal symbols (variables);\n",
+ Cell[BoxData[
+  FormBox["\[CapitalSigma]", TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " is a finite set of terminal symbols;\n",
+ Cell[BoxData[
+  FormBox["P", TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " is a finite set of relations from ",
+ Cell[BoxData[
+  FormBox["V", TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " to ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    RowBox[{"(", 
+     RowBox[{"V", "\[Union]", "\[CapitalSigma]"}], ")"}], "*"], 
+   TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ";\nS is the start variable."
+}], "Text",
+ CellChangeTimes->{{3.6635788219095716`*^9, 3.6635790701349287`*^9}}],
+
+Cell["We use the following forms of context-free grammars:", "Text",
+ CellChangeTimes->{{3.663578051703573*^9, 3.663578063291172*^9}, {
+  3.663578550063451*^9, 3.663578575667531*^9}}],
 
 Cell[BoxData[{
  RowBox[{
-  RowBox[{"Pairs", "@", "G_"}], ":=", 
+  RowBox[{"CFGListForm", "@", "S_"}], ":=", 
   RowBox[{"Flatten", "[", 
    RowBox[{
     RowBox[{
@@ -53,19 +100,19 @@ Cell[BoxData[{
         RowBox[{"StringSplit", "[", 
          RowBox[{"#", ",", "\"\<|\>\"", ",", "All"}], "]"}], "&"}], "/@", 
        RowBox[{"StringSplit", "[", 
-        RowBox[{"G", ",", 
+        RowBox[{"S", ",", 
          RowBox[{"{", 
           RowBox[{
           "\"\< \[Rule] \>\"", ",", "\"\< \[Rule]\>\"", ",", 
            "\"\<\[Rule] \>\"", ",", "\"\<\[Rule]\>\""}], "}"}], ",", "2"}], 
         "]"}]}], ")"}]}], ",", "2"}], "]"}]}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"BNF", "@", "G_"}], ":=", 
+  RowBox[{"CFGTextForm", "@", "G_"}], ":=", 
   RowBox[{"Map", "[", 
    RowBox[{
     RowBox[{
      RowBox[{
-      RowBox[{"First", "@", "#"}], "<>", "\"\< \[Rule] \>\"", "<>", 
+      RowBox[{"First", "@", "#"}], "<>", "\"\<\[Rule]\>\"", "<>", 
       RowBox[{"Riffle", "[", 
        RowBox[{
         RowBox[{"Rest", "@", "#"}], ",", "\"\<|\>\""}], "]"}]}], "&"}], ",", 
@@ -93,13 +140,16 @@ Cell[BoxData[{
   3.6367874490442314`*^9}, {3.6367875376563*^9, 3.636787537890313*^9}, {
   3.636790187172844*^9, 3.6367902339205174`*^9}, {3.6367902681504755`*^9, 
   3.636790308013755*^9}, {3.6368013847964067`*^9, 3.636801385095424*^9}, {
-  3.636814379199644*^9, 3.6368143871681004`*^9}}],
+  3.636814379199644*^9, 3.6368143871681004`*^9}, {3.663577978671496*^9, 
+  3.66357797928721*^9}, {3.6635782638432713`*^9, 3.663578357529521*^9}, {
+  3.663578421114139*^9, 3.663578465770047*^9}, {3.663578628007105*^9, 
+  3.66357862802153*^9}}],
 
 Cell[BoxData[
  RowBox[{
   RowBox[{"G", "=", 
-   RowBox[{"Pairs", "/@", 
-    RowBox[{"{", 
+   RowBox[{"CFGListForm", "/@", 
+    RowBox[{"{", "\[IndentingNewLine]", 
      RowBox[{
       RowBox[{"{", 
        RowBox[{
@@ -143,6 +193,7 @@ Cell[BoxData[
         "\"\<Y\[Rule]YY|B\>\"", ",", "\"\<A\[Rule]a\>\"", ",", 
         "\"\<B\[Rule]b\>\""}], "}"}], ",", 
       RowBox[{"{", "\"\<S\[Rule]aSa|bSb|a|b|\[CurlyEpsilon]\>\"", "}"}], ",", 
+      
       RowBox[{"{", 
        RowBox[{
        "\"\<S\[Rule]bA|aB\>\"", ",", "\"\<A\[Rule]bAA|aS|a\>\"", ",", 
@@ -161,7 +212,9 @@ Cell[BoxData[
       "{", "\"\<S\[Rule](S)|(S*S)|(S+S)|(S\[Rule]S)|(S/S)|(a)|(b)\>\"", 
        "}"}]}], "}"}]}]}], ";"}]], "Input",
  InitializationCell->True,
- CellChangeTimes->{3.6368144198109674`*^9}],
+ CellChangeTimes->{
+  3.6368144198109674`*^9, {3.663577846091796*^9, 3.6635778705230007`*^9}, {
+   3.663578506787047*^9, 3.6635785296972218`*^9}, 3.663578628062141*^9}],
 
 Cell[CellGroupData[{
 
@@ -492,8 +545,8 @@ Cell[BoxData[
    3.636788167469323*^9}, 3.636790316560244*^9, 3.636797636592022*^9, 
    3.636800507054203*^9, 3.636801428682917*^9, 3.6368019311136546`*^9, {
    3.6368042009244804`*^9, 3.63680421386522*^9}, {3.636814423943204*^9, 
-   3.6368144429422903`*^9}}]
-}, Closed]],
+   3.6368144429422903`*^9}, 3.6635778408753777`*^9, 3.6635787349051733`*^9}]
+}, Open  ]],
 
 Cell[BoxData[{
  RowBox[{"ClearAll", "@", "ReachableV"}], "\[IndentingNewLine]", 
@@ -543,7 +596,8 @@ Cell[BoxData[{
    3.6367890202621*^9}, 3.636790990974818*^9, {3.6367960175174165`*^9, 
    3.636796027246973*^9}, 3.6367960757507467`*^9, {3.6367961122828364`*^9, 
    3.63679611812117*^9}, {3.6367976390481625`*^9, 3.636797647698657*^9}, 
-   3.6368144558470287`*^9, {3.6368147667908134`*^9, 3.6368147707800417`*^9}}],
+   3.6368144558470287`*^9, {3.6368147667908134`*^9, 3.6368147707800417`*^9}, {
+   3.6635787799977283`*^9, 3.663578781450214*^9}}],
 
 Cell[CellGroupData[{
 
@@ -579,8 +633,8 @@ Cell[BoxData[
    3.6367889812098665`*^9}, {3.6367890168249035`*^9, 3.6367890209511395`*^9}, 
    3.6367903214995265`*^9, {3.636796002860578*^9, 3.636796028097021*^9}, {
    3.6367961148339825`*^9, 3.6367961185961976`*^9}, {3.636797629647625*^9, 
-   3.6367976582272596`*^9}, 3.6368005097073545`*^9}]
-}, Closed]],
+   3.6367976582272596`*^9}, 3.6368005097073545`*^9, 3.663578744401677*^9}]
+}, Open  ]],
 
 Cell[BoxData[{
  RowBox[{"ClearAll", "@", "MapAtAllLast"}], "\[IndentingNewLine]", 
@@ -619,7 +673,7 @@ Cell[BoxData[{
 Cell[BoxData[
  RowBox[{"{", "}"}]], "Output",
  CellChangeTimes->{{3.6367996741825657`*^9, 3.636799698927981*^9}, 
-   3.636799730745801*^9, 3.6368005116104636`*^9}],
+   3.636799730745801*^9, 3.6368005116104636`*^9, 3.6635790899960747`*^9}],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -637,8 +691,8 @@ Cell[BoxData[
     RowBox[{"\<\"\"\>", ",", 
      RowBox[{"f", "[", "\<\"\"\>", "]"}]}], "}"}]}], "}"}]], "Output",
  CellChangeTimes->{{3.6367996741825657`*^9, 3.636799698927981*^9}, 
-   3.636799730745801*^9, 3.636800511613464*^9}]
-}, Closed]],
+   3.636799730745801*^9, 3.6368005116104636`*^9, 3.663579089998015*^9}]
+}, Open  ]],
 
 Cell[BoxData[{
  RowBox[{"ClearAll", "@", "TerminatingV"}], "\[IndentingNewLine]", 
@@ -722,6 +776,7 @@ Cell[BoxData[
   RowBox[{"Select", "[", 
    RowBox[{
     RowBox[{"G", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], ",", 
+    
     RowBox[{"Apply", "@", "Unequal"}]}], "]"}]}]], "Input",
  CellChangeTimes->{{3.636789077989402*^9, 3.6367890871359253`*^9}, {
    3.6367891254371157`*^9, 3.6367892579016924`*^9}, {3.6367892916766243`*^9, 
@@ -755,8 +810,8 @@ Cell[BoxData[
   "}"}]], "Output",
  CellChangeTimes->{
   3.6368040843628135`*^9, 3.6368042050087137`*^9, {3.6368044173568597`*^9, 
-   3.636804446613533*^9}, 3.636804517774603*^9}]
-}, Closed]],
+   3.636804446613533*^9}, 3.636804517774603*^9, 3.66357912407756*^9}]
+}, Open  ]],
 
 Cell[BoxData[{
  RowBox[{"ClearAll", "@", "EliminateUselessP"}], "\[IndentingNewLine]", 
@@ -829,14 +884,15 @@ Cell[CellGroupData[{
 
 Cell[BoxData[{
  RowBox[{"Union", "@", 
-  RowBox[{"BNF", "@", 
+  RowBox[{"CFGTextForm", "@", 
    RowBox[{
    "G", "\[LeftDoubleBracket]", "1", 
     "\[RightDoubleBracket]"}]}]}], "\[IndentingNewLine]", 
- RowBox[{"BNF", "@", 
+ RowBox[{"CFGTextForm", "@", 
   RowBox[{"EliminateUselessP", "@", 
    RowBox[{
-   "G", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}]}]}], "Input",
+   "G", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}]}]}], "Input",\
+
  CellChangeTimes->{{3.6367958464636326`*^9, 3.6367958676528444`*^9}, {
    3.6367959009177475`*^9, 3.63679590342389*^9}, {3.636795962250255*^9, 
    3.636795986217626*^9}, {3.6367963883136244`*^9, 3.6367964473029985`*^9}, {
@@ -851,15 +907,16 @@ Cell[BoxData[{
    3.636801527675579*^9, 3.636801528470625*^9}, {3.636803384279771*^9, 
    3.6368033902311115`*^9}, {3.636804930924234*^9, 3.636804960600931*^9}, {
    3.6368081149233484`*^9, 3.6368081173884892`*^9}, 3.6368144863237715`*^9, {
-   3.6368148004407377`*^9, 3.63681480082476*^9}}],
+   3.6368148004407377`*^9, 3.63681480082476*^9}, {3.663578517748678*^9, 
+   3.663578517750396*^9}, {3.663578628103036*^9, 3.663578628107533*^9}}],
 
 Cell[BoxData[
  RowBox[{"{", 
-  RowBox[{"\<\"A \[Rule] S|BC|b|F|\[CurlyEpsilon]\"\>", 
-   ",", "\<\"B \[Rule] ac|ac|ac\"\>", ",", "\<\"C \[Rule] S|D\"\>", 
-   ",", "\<\"E \[Rule] abS|cc\"\>", ",", "\<\"F \[Rule] A\"\>", 
-   ",", "\<\"G \[Rule] H|H|G\"\>", ",", "\<\"H \[Rule] G|I|H|abc\"\>", 
-   ",", "\<\"J \[Rule] J\"\>", ",", "\<\"S \[Rule] ABbaDS|S|Cb|A|C|aJ\"\>"}], 
+  RowBox[{"\<\"A\[Rule]S|BC|b|F|\[CurlyEpsilon]\"\>", 
+   ",", "\<\"B\[Rule]ac|ac|ac\"\>", ",", "\<\"C\[Rule]S|D\"\>", 
+   ",", "\<\"E\[Rule]abS|cc\"\>", ",", "\<\"F\[Rule]A\"\>", 
+   ",", "\<\"G\[Rule]H|H|G\"\>", ",", "\<\"H\[Rule]G|I|H|abc\"\>", 
+   ",", "\<\"J\[Rule]J\"\>", ",", "\<\"S\[Rule]ABbaDS|S|Cb|A|C|aJ\"\>"}], 
   "}"}]], "Output",
  CellChangeTimes->{
   3.636797563145821*^9, 3.636797663847581*^9, 3.636797727354213*^9, 
@@ -869,14 +926,15 @@ Cell[BoxData[
    3.6368009580439982`*^9, 3.6368009722358103`*^9}, 3.6368010964959173`*^9, {
    3.6368011901322727`*^9, 3.6368012169498067`*^9}, {3.6368013568418083`*^9, 
    3.636801392992876*^9}, 3.6368014464789352`*^9, 3.6368034185387306`*^9, {
-   3.6368049440479846`*^9, 3.636804961050957*^9}, 3.6368081278310866`*^9}],
+   3.6368049440479846`*^9, 3.636804961050957*^9}, 3.6368081278310866`*^9, 
+   3.6635791369951077`*^9}],
 
 Cell[BoxData[
  RowBox[{"{", 
-  RowBox[{"\<\"A \[Rule] b|BC|F|S|\[CurlyEpsilon]\"\>", 
-   ",", "\<\"B \[Rule] ac\"\>", ",", "\<\"C \[Rule] S\"\>", 
-   ",", "\<\"F \[Rule] A\"\>", ",", "\<\"S \[Rule] A|C|Cb\"\>"}], 
-  "}"}]], "Output",
+  RowBox[{"\<\"A\[Rule]b|BC|F|S|\[CurlyEpsilon]\"\>", 
+   ",", "\<\"B\[Rule]ac\"\>", ",", "\<\"C\[Rule]S\"\>", 
+   ",", "\<\"F\[Rule]A\"\>", ",", "\<\"S\[Rule]A|C|Cb\"\>"}], "}"}]], "Output",\
+
  CellChangeTimes->{
   3.636797563145821*^9, 3.636797663847581*^9, 3.636797727354213*^9, 
    3.63679782922104*^9, {3.6367978611748676`*^9, 3.636797885720271*^9}, 
@@ -885,22 +943,25 @@ Cell[BoxData[
    3.6368009580439982`*^9, 3.6368009722358103`*^9}, 3.6368010964959173`*^9, {
    3.6368011901322727`*^9, 3.6368012169498067`*^9}, {3.6368013568418083`*^9, 
    3.636801392992876*^9}, 3.6368014464789352`*^9, 3.6368034185387306`*^9, {
-   3.6368049440479846`*^9, 3.636804961050957*^9}, 3.636808127852088*^9}]
-}, Closed]],
+   3.6368049440479846`*^9, 3.636804961050957*^9}, 3.6368081278310866`*^9, 
+   3.663579136997463*^9}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{"BNF", "@", 
+ RowBox[{"CFGTextForm", "@", 
   RowBox[{"EliminateUselessP", "@", 
-   RowBox[{"Pairs", "@", 
+   RowBox[{"CFGListForm", "@", 
     RowBox[{"{", 
      RowBox[{
      "\"\<S\[Rule]AB|C\>\"", ",", "\"\<A\[Rule]aA|a\>\"", ",", 
-      "\"\<B\[Rule]bB\>\"", ",", "\"\<C\[Rule]c\>\""}], "}"}]}]}]}]], "Input",
+      "\"\<B\[Rule]bB\>\"", ",", "\"\<C\[Rule]c\>\""}], "}"}]}]}]}]], "Input",\
+
  CellChangeTimes->{{3.636805008275658*^9, 3.6368050524711857`*^9}, {
   3.6368050928504953`*^9, 3.636805102663057*^9}, {3.636808125533955*^9, 
-  3.636808125840973*^9}}],
+  3.636808125840973*^9}, {3.663578506857172*^9, 3.663578517755706*^9}, {
+  3.663578628111683*^9, 3.6635786281129*^9}}],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -1033,8 +1094,8 @@ Cell[BoxData[
  CellChangeTimes->{
   3.636802705844967*^9, {3.63680273597269*^9, 3.6368027479163733`*^9}, {
    3.636802844779913*^9, 3.6368028605668163`*^9}, 3.6368045236379385`*^9, 
-   3.6368081334614086`*^9}]
-}, Closed]],
+   3.6368081334614086`*^9, 3.663579147713027*^9}]
+}, Open  ]],
 
 Cell[BoxData[{
  RowBox[{"ClearAll", "@", "EliminateNullableP"}], "\[IndentingNewLine]", 
@@ -1148,7 +1209,7 @@ Cell[BoxData[
    RowBox[{
     RowBox[{
      RowBox[{
-      RowBox[{"Union", "@*", "BNF"}], "/@", 
+      RowBox[{"Union", "@*", "CFGTextForm"}], "/@", 
       RowBox[{"{", 
        RowBox[{"#", ",", 
         RowBox[{"EliminateNullableP", "@", "#"}]}], "}"}]}], "&"}], "@", 
@@ -1156,17 +1217,18 @@ Cell[BoxData[
    ",", 
    RowBox[{"Alignment", "\[Rule]", "Left"}]}], "]"}]], "Input",
  CellChangeTimes->{{3.636806384630381*^9, 3.6368064038044777`*^9}, {
-  3.636806451980233*^9, 3.6368065359540367`*^9}, {3.636806961264363*^9, 
-  3.636806966341653*^9}, {3.6368081457781134`*^9, 3.6368081461251326`*^9}}],
+   3.636806451980233*^9, 3.6368065359540367`*^9}, {3.636806961264363*^9, 
+   3.636806966341653*^9}, {3.6368081457781134`*^9, 3.6368081461251326`*^9}, 
+   3.663578517762372*^9, 3.663578628116794*^9}],
 
 Cell[BoxData[
  TagBox[GridBox[{
-    {"\<\"A \[Rule] aA|bA|\[CurlyEpsilon]\"\>", "\<\"B \[Rule] Ba|Bb|\
-\[CurlyEpsilon]\"\>", "\<\"S \[Rule] XY\"\>", "\<\"W \[Rule] Z\"\>", "\<\"X \
-\[Rule] Zb\"\>", "\<\"Y \[Rule] bW\"\>", "\<\"Z \[Rule] AB\"\>"},
-    {"\<\"A \[Rule] a|aA|b|bA\"\>", "\<\"B \[Rule] a|b|Ba|Bb\"\>", "\<\"S \
-\[Rule] XY\"\>", "\<\"W \[Rule] Z\"\>", "\<\"X \[Rule] b|Zb\"\>", "\<\"Y \
-\[Rule] b|bW\"\>", "\<\"Z \[Rule] A|AB|B\"\>"}
+    {"\<\"A\[Rule]aA|bA|\[CurlyEpsilon]\"\>", "\<\"B\[Rule]Ba|Bb|\
+\[CurlyEpsilon]\"\>", "\<\"S\[Rule]XY\"\>", "\<\"W\[Rule]Z\"\>", \
+"\<\"X\[Rule]Zb\"\>", "\<\"Y\[Rule]bW\"\>", "\<\"Z\[Rule]AB\"\>"},
+    {"\<\"A\[Rule]a|aA|b|bA\"\>", "\<\"B\[Rule]a|b|Ba|Bb\"\>", \
+"\<\"S\[Rule]XY\"\>", "\<\"W\[Rule]Z\"\>", "\<\"X\[Rule]b|Zb\"\>", "\<\"Y\
+\[Rule]b|bW\"\>", "\<\"Z\[Rule]A|AB|B\"\>"}
    },
    AutoDelete->False,
    GridBoxAlignment->{"Columns" -> {{Left}}},
@@ -1175,8 +1237,8 @@ Cell[BoxData[
  CellChangeTimes->{
   3.6368064042215014`*^9, {3.6368064468429394`*^9, 3.636806456381485*^9}, {
    3.636806509760538*^9, 3.636806536403062*^9}, {3.6368081467541685`*^9, 
-   3.6368081512094235`*^9}}]
-}, Closed]],
+   3.6368081512094235`*^9}, 3.663579153376465*^9}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -1186,40 +1248,42 @@ Cell[BoxData[
    RowBox[{
     RowBox[{
      RowBox[{
-      RowBox[{"Union", "@*", "BNF"}], "/@", 
+      RowBox[{"Union", "@*", "CFGTextForm"}], "/@", 
       RowBox[{"{", 
        RowBox[{"#", ",", 
         RowBox[{"EliminateNullableP", "@", "#"}]}], "}"}]}], "&"}], "@", 
     RowBox[{"G", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
    ",", 
    RowBox[{"Alignment", "\[Rule]", "Left"}]}], "]"}]], "Input",
- CellChangeTimes->{{3.6368081642471695`*^9, 3.636808164569188*^9}}],
+ CellChangeTimes->{{3.6368081642471695`*^9, 3.636808164569188*^9}, 
+   3.6635785177678757`*^9, 3.6635786281208878`*^9}],
 
 Cell[BoxData[
  TagBox[GridBox[{
-    {"\<\"S \[Rule] a|Xb|aYa\"\>", "\<\"X \[Rule] Y|\[CurlyEpsilon]\"\>", "\<\
-\"Y \[Rule] b|X\"\>"},
-    {"\<\"S \[Rule] a|aa|aYa|b|Xb\"\>", "\<\"X \[Rule] Y\"\>", "\<\"Y \[Rule] \
-b|X\"\>"}
+    {"\<\"S\[Rule]a|Xb|aYa\"\>", "\<\"X\[Rule]Y|\[CurlyEpsilon]\"\>", "\<\"Y\
+\[Rule]b|X\"\>"},
+    {"\<\"S\[Rule]a|aa|aYa|b|Xb\"\>", "\<\"X\[Rule]Y\"\>", "\<\"Y\[Rule]b|X\"\
+\>"}
    },
    AutoDelete->False,
    GridBoxAlignment->{"Columns" -> {{Left}}},
    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
   "Grid"]], "Output",
- CellChangeTimes->{3.636806968267763*^9, 3.6368081650572157`*^9}]
-}, Closed]],
+ CellChangeTimes->{3.636806968267763*^9, 3.6368081650572157`*^9, 
+  3.663579157552907*^9}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"Column", "[", 
-  RowBox[{"BNF", "/@", 
+  RowBox[{"CFGTextForm", "/@", 
    RowBox[{"ComposeList", "[", 
     RowBox[{
      RowBox[{"{", 
       RowBox[{"EliminateNullableP", ",", "EliminateUselessP"}], "}"}], ",", 
      RowBox[{"Sort", "@", 
-      RowBox[{"Pairs", "@", 
+      RowBox[{"CFGListForm", "@", 
        RowBox[{"{", 
         RowBox[{
         "\"\<S\[Rule]ABC\>\"", ",", "\"\<A\[Rule]aA|\[CurlyEpsilon]\>\"", 
@@ -1234,24 +1298,26 @@ Cell[BoxData[
    3.6368063091930666`*^9, 3.6368063413729067`*^9}, {3.6368063806471534`*^9, 
    3.6368063819952307`*^9}, {3.6368065867489414`*^9, 3.63680659266928*^9}, {
    3.6368066372048273`*^9, 3.636806726480934*^9}, {3.636806767038254*^9, 
-   3.6368069161527824`*^9}, {3.6368081677293687`*^9, 3.6368081700275*^9}}],
+   3.6368069161527824`*^9}, {3.6368081677293687`*^9, 3.6368081700275*^9}, {
+   3.663578506867711*^9, 3.663578517773954*^9}, {3.6635786281250753`*^9, 
+   3.6635786281262836`*^9}}],
 
 Cell[BoxData[
  TagBox[GridBox[{
     {
      RowBox[{"{", 
-      RowBox[{"\<\"A \[Rule] aA|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"B \[Rule] bB|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"C \[Rule] \[CurlyEpsilon]\"\>", 
-       ",", "\<\"S \[Rule] ABC\"\>"}], "}"}]},
+      RowBox[{"\<\"A\[Rule]aA|\[CurlyEpsilon]\"\>", 
+       ",", "\<\"B\[Rule]bB|\[CurlyEpsilon]\"\>", 
+       ",", "\<\"C\[Rule]\[CurlyEpsilon]\"\>", ",", "\<\"S\[Rule]ABC\"\>"}], 
+      "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"A \[Rule] a|aA\"\>", ",", "\<\"B \[Rule] b|bB\"\>", 
-       ",", "\<\"S \[Rule] A|AB|ABC|AC|B|BC|C\"\>"}], "}"}]},
+      RowBox[{"\<\"A\[Rule]a|aA\"\>", ",", "\<\"B\[Rule]b|bB\"\>", 
+       ",", "\<\"S\[Rule]A|AB|ABC|AC|B|BC|C\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"A \[Rule] a|aA\"\>", ",", "\<\"B \[Rule] b|bB\"\>", 
-       ",", "\<\"S \[Rule] A|AB|B\"\>"}], "}"}]}
+      RowBox[{"\<\"A\[Rule]a|aA\"\>", ",", "\<\"B\[Rule]b|bB\"\>", 
+       ",", "\<\"S\[Rule]A|AB|B\"\>"}], "}"}]}
    },
    DefaultBaseStyle->"Column",
    GridBoxAlignment->{"Columns" -> {{Left}}},
@@ -1260,8 +1326,9 @@ Cell[BoxData[
  CellChangeTimes->{
   3.636806034280342*^9, 3.6368063449621124`*^9, {3.6368065703600044`*^9, 
    3.636806593281315*^9}, 3.6368066504545856`*^9, 3.6368067756887484`*^9, {
-   3.6368068214603662`*^9, 3.636806916654811*^9}, 3.6368081713845778`*^9}]
-}, Closed]],
+   3.6368068214603662`*^9, 3.636806916654811*^9}, 3.6368081713845778`*^9, 
+   3.663579159495894*^9}]
+}, Open  ]],
 
 Cell[BoxData[{
  RowBox[{"ClearAll", "@", "TransitiveClosure"}], "\[IndentingNewLine]", 
@@ -1361,8 +1428,8 @@ Cell[BoxData[
     RowBox[{"\<\"Z\"\>", ",", "\<\"a\"\>"}], "}"}], ",", 
    RowBox[{"{", 
     RowBox[{"\<\"Z\"\>", ",", "\<\"Y\"\>"}], "}"}]}], "}"}]], "Output",
- CellChangeTimes->{3.6368111862300167`*^9}]
-}, Closed]],
+ CellChangeTimes->{3.6368111862300167`*^9, 3.663579169418194*^9}]
+}, Open  ]],
 
 Cell[BoxData[{
  RowBox[{"ClearAll", "@", "EliminateUnitP"}], "\[IndentingNewLine]", 
@@ -1434,7 +1501,7 @@ Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"Column", "[", 
-  RowBox[{"BNF", "/@", 
+  RowBox[{"CFGTextForm", "/@", 
    RowBox[{"ComposeList", "[", 
     RowBox[{
      RowBox[{"{", 
@@ -1444,47 +1511,49 @@ Cell[BoxData[
      RowBox[{"G", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
     "]"}]}], "]"}]], "Input",
  CellChangeTimes->{{3.6368132056765227`*^9, 3.6368132399314823`*^9}, {
-  3.6368132799287696`*^9, 3.636813322456202*^9}}],
+   3.6368132799287696`*^9, 3.636813322456202*^9}, 3.663578517779355*^9, 
+   3.66357862812996*^9}],
 
 Cell[BoxData[
  TagBox[GridBox[{
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] ABbaDS|S|Cb|A|C|aJ\"\>", 
-       ",", "\<\"A \[Rule] S|BC|b|F|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"B \[Rule] ac|ac|ac\"\>", ",", "\<\"C \[Rule] S|D\"\>", 
-       ",", "\<\"E \[Rule] abS|cc\"\>", ",", "\<\"F \[Rule] A\"\>", 
-       ",", "\<\"G \[Rule] H|H|G\"\>", ",", "\<\"H \[Rule] G|I|H|abc\"\>", 
-       ",", "\<\"J \[Rule] J\"\>"}], "}"}]},
+      RowBox[{"\<\"S\[Rule]ABbaDS|S|Cb|A|C|aJ\"\>", 
+       ",", "\<\"A\[Rule]S|BC|b|F|\[CurlyEpsilon]\"\>", 
+       ",", "\<\"B\[Rule]ac|ac|ac\"\>", ",", "\<\"C\[Rule]S|D\"\>", 
+       ",", "\<\"E\[Rule]abS|cc\"\>", ",", "\<\"F\[Rule]A\"\>", 
+       ",", "\<\"G\[Rule]H|H|G\"\>", ",", "\<\"H\[Rule]G|I|H|abc\"\>", 
+       ",", "\<\"J\[Rule]J\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"A \[Rule] b|B|BC|F|S\"\>", ",", "\<\"B \[Rule] ac\"\>", 
-       ",", "\<\"C \[Rule] D|S\"\>", ",", "\<\"E \[Rule] ab|abS|cc\"\>", 
-       ",", "\<\"F \[Rule] A\"\>", ",", "\<\"G \[Rule] G|H\"\>", 
-       ",", "\<\"H \[Rule] abc|G|H|I\"\>", ",", "\<\"J \[Rule] J\"\>", 
-       ",", "\<\"S \[Rule] A|ABbaD|ABbaDS|aJ|b|BbaD|BbaDS|C|Cb|S\"\>"}], 
+      RowBox[{"\<\"A\[Rule]b|B|BC|F|S\"\>", ",", "\<\"B\[Rule]ac\"\>", 
+       ",", "\<\"C\[Rule]D|S\"\>", ",", "\<\"E\[Rule]ab|abS|cc\"\>", 
+       ",", "\<\"F\[Rule]A\"\>", ",", "\<\"G\[Rule]G|H\"\>", 
+       ",", "\<\"H\[Rule]abc|G|H|I\"\>", ",", "\<\"J\[Rule]J\"\>", 
+       ",", "\<\"S\[Rule]A|ABbaD|ABbaDS|aJ|b|BbaD|BbaDS|C|Cb|S\"\>"}], 
       "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"A \[Rule] ABbaD|ABbaDS|ac|aJ|b|BbaD|BbaDS|BC|Cb\"\>", 
-       ",", "\<\"B \[Rule] ac\"\>", 
-       ",", "\<\"C \[Rule] ABbaD|ABbaDS|ac|aJ|b|BbaD|BbaDS|BC|Cb\"\>", 
-       ",", "\<\"E \[Rule] ab|abS|cc\"\>", 
-       ",", "\<\"F \[Rule] ABbaD|ABbaDS|ac|aJ|b|BbaD|BbaDS|BC|Cb\"\>", 
-       ",", "\<\"G \[Rule] abc\"\>", ",", "\<\"H \[Rule] abc\"\>", 
-       ",", "\<\"S \[Rule] ABbaD|ABbaDS|ac|aJ|b|BbaD|BbaDS|BC|Cb\"\>"}], 
+      RowBox[{"\<\"A\[Rule]ABbaD|ABbaDS|ac|aJ|b|BbaD|BbaDS|BC|Cb\"\>", 
+       ",", "\<\"B\[Rule]ac\"\>", 
+       ",", "\<\"C\[Rule]ABbaD|ABbaDS|ac|aJ|b|BbaD|BbaDS|BC|Cb\"\>", 
+       ",", "\<\"E\[Rule]ab|abS|cc\"\>", 
+       ",", "\<\"F\[Rule]ABbaD|ABbaDS|ac|aJ|b|BbaD|BbaDS|BC|Cb\"\>", 
+       ",", "\<\"G\[Rule]abc\"\>", ",", "\<\"H\[Rule]abc\"\>", 
+       ",", "\<\"S\[Rule]ABbaD|ABbaDS|ac|aJ|b|BbaD|BbaDS|BC|Cb\"\>"}], 
       "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"B \[Rule] ac\"\>", ",", "\<\"C \[Rule] ac|b|BC|Cb\"\>", 
-       ",", "\<\"S \[Rule] ac|b|BC|Cb\"\>"}], "}"}]}
+      RowBox[{"\<\"B\[Rule]ac\"\>", ",", "\<\"C\[Rule]ac|b|BC|Cb\"\>", 
+       ",", "\<\"S\[Rule]ac|b|BC|Cb\"\>"}], "}"}]}
    },
    DefaultBaseStyle->"Column",
    GridBoxAlignment->{"Columns" -> {{Left}}},
    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
   "Column"]], "Output",
- CellChangeTimes->{{3.6368132986978436`*^9, 3.636813323245247*^9}}]
-}, Closed]],
+ CellChangeTimes->{{3.6368132986978436`*^9, 3.636813323245247*^9}, 
+   3.6635791748958273`*^9}]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -1556,7 +1625,7 @@ Cell[BoxData[{
             RowBox[{"#", ",", "Tr"}], "]"}], ",", "#"}], "]"}], "&"}], ",", 
         "G"}], "]"}]}]}]}], "]"}]}], "\[IndentingNewLine]", 
  RowBox[{"Column", "[", 
-  RowBox[{"BNF", "/@", 
+  RowBox[{"CFGTextForm", "/@", 
    RowBox[{"ComposeList", "[", 
     RowBox[{
      RowBox[{"{", "SeparateVT", "}"}], ",", 
@@ -1564,41 +1633,42 @@ Cell[BoxData[{
     "]"}]}], "]"}]}], "Input",
  InitializationCell->True,
  CellChangeTimes->{{3.6368143295288033`*^9, 3.6368143605565777`*^9}, {
-  3.636814581955241*^9, 3.6368146451168537`*^9}, {3.6368149105530357`*^9, 
-  3.636815058080474*^9}, {3.63681513511388*^9, 3.6368151424432993`*^9}, {
-  3.6368152937269526`*^9, 3.636815303868532*^9}, {3.6368153460279436`*^9, 
-  3.63681542008918*^9}, {3.636815451793993*^9, 3.6368157461148276`*^9}, {
-  3.636815805229209*^9, 3.636815868463825*^9}, {3.636815917446627*^9, 
-  3.6368159507815337`*^9}, {3.6368160064497175`*^9, 3.636816013288109*^9}, {
-  3.6368160744736085`*^9, 3.636816075824686*^9}}],
+   3.636814581955241*^9, 3.6368146451168537`*^9}, {3.6368149105530357`*^9, 
+   3.636815058080474*^9}, {3.63681513511388*^9, 3.6368151424432993`*^9}, {
+   3.6368152937269526`*^9, 3.636815303868532*^9}, {3.6368153460279436`*^9, 
+   3.63681542008918*^9}, {3.636815451793993*^9, 3.6368157461148276`*^9}, {
+   3.636815805229209*^9, 3.636815868463825*^9}, {3.636815917446627*^9, 
+   3.6368159507815337`*^9}, {3.6368160064497175`*^9, 3.636816013288109*^9}, {
+   3.6368160744736085`*^9, 3.636816075824686*^9}, 3.663578517786572*^9, 
+   3.66357862813447*^9}],
 
 Cell[BoxData[
  TagBox[GridBox[{
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] ABbaDS|S|Cb|A|C|aJ\"\>", 
-       ",", "\<\"A \[Rule] S|BC|b|F|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"B \[Rule] ac|ac|ac\"\>", ",", "\<\"C \[Rule] S|D\"\>", 
-       ",", "\<\"E \[Rule] abS|cc\"\>", ",", "\<\"F \[Rule] A\"\>", 
-       ",", "\<\"G \[Rule] H|H|G\"\>", ",", "\<\"H \[Rule] G|I|H|abc\"\>", 
-       ",", "\<\"J \[Rule] J\"\>"}], "}"}]},
+      RowBox[{"\<\"S\[Rule]ABbaDS|S|Cb|A|C|aJ\"\>", 
+       ",", "\<\"A\[Rule]S|BC|b|F|\[CurlyEpsilon]\"\>", 
+       ",", "\<\"B\[Rule]ac|ac|ac\"\>", ",", "\<\"C\[Rule]S|D\"\>", 
+       ",", "\<\"E\[Rule]abS|cc\"\>", ",", "\<\"F\[Rule]A\"\>", 
+       ",", "\<\"G\[Rule]H|H|G\"\>", ",", "\<\"H\[Rule]G|I|H|abc\"\>", 
+       ",", "\<\"J\[Rule]J\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"\[FormalCapitalC] \[Rule] c\"\>", 
-       ",", "\<\"\[FormalCapitalD] \[Rule] \[CurlyEpsilon]\"\>", 
-       ",", "\<\"S \[Rule] AB\[FormalCapitalB]\[FormalCapitalA]DS|S|C\
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", 
+       ",", "\<\"\[FormalCapitalC]\[Rule]c\"\>", 
+       ",", "\<\"\[FormalCapitalD]\[Rule]\[CurlyEpsilon]\"\>", 
+       ",", "\<\"S\[Rule]AB\[FormalCapitalB]\[FormalCapitalA]DS|S|C\
 \[FormalCapitalB]|A|C|\[FormalCapitalA]J\"\>", 
-       ",", "\<\"A \[Rule] S|BC|b|F|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"B \[Rule] \[FormalCapitalA]\[FormalCapitalC]|\
-\[FormalCapitalA]\[FormalCapitalC]|\[FormalCapitalA]\[FormalCapitalC]\"\>", 
-       ",", "\<\"C \[Rule] S|D\"\>", 
-       ",", "\<\"E \[Rule] \[FormalCapitalA]\[FormalCapitalB]S|\
-\[FormalCapitalC]\[FormalCapitalC]\"\>", ",", "\<\"F \[Rule] A\"\>", 
-       ",", "\<\"G \[Rule] H|H|G\"\>", 
-       ",", "\<\"H \[Rule] G|I|H|\[FormalCapitalA]\[FormalCapitalB]\
-\[FormalCapitalC]\"\>", ",", "\<\"J \[Rule] J\"\>"}], "}"}]}
+       ",", "\<\"A\[Rule]S|BC|b|F|\[CurlyEpsilon]\"\>", 
+       ",", "\<\"B\[Rule]\[FormalCapitalA]\[FormalCapitalC]|\[FormalCapitalA]\
+\[FormalCapitalC]|\[FormalCapitalA]\[FormalCapitalC]\"\>", 
+       ",", "\<\"C\[Rule]S|D\"\>", 
+       ",", "\<\"E\[Rule]\[FormalCapitalA]\[FormalCapitalB]S|\[FormalCapitalC]\
+\[FormalCapitalC]\"\>", ",", "\<\"F\[Rule]A\"\>", 
+       ",", "\<\"G\[Rule]H|H|G\"\>", 
+       ",", "\<\"H\[Rule]G|I|H|\[FormalCapitalA]\[FormalCapitalB]\
+\[FormalCapitalC]\"\>", ",", "\<\"J\[Rule]J\"\>"}], "}"}]}
    },
    DefaultBaseStyle->"Column",
    GridBoxAlignment->{"Columns" -> {{Left}}},
@@ -1613,7 +1683,7 @@ Cell[BoxData[
    3.6368160770217543`*^9, 3.636818006577612*^9, 3.636826781020481*^9, 
    3.63682686019401*^9, 3.636827062614588*^9, 3.6368271400760183`*^9, 
    3.63694866340488*^9, 3.6380022185639153`*^9, 3.641534497174364*^9, 
-   3.6416289231908307`*^9}]
+   3.6416289231908307`*^9, 3.66357783662842*^9, 3.663579191004568*^9}]
 }, Open  ]],
 
 Cell[BoxData[{
@@ -1678,7 +1748,8 @@ Cell[BoxData[{
                  RowBox[{"{", "#", "}"}], ",", "\[IndentingNewLine]", 
                  RowBox[{
                   RowBox[{"V", "=", 
-                   RowBox[{"\[DoubleStruckCapitalV]", "\[LeftDoubleBracket]", 
+                   RowBox[{
+                   "\[DoubleStruckCapitalV]", "\[LeftDoubleBracket]", 
                     RowBox[{"i", ";;", 
                     RowBox[{
                     RowBox[{"(", 
@@ -1728,262 +1799,262 @@ Cell[BoxData[
   RowBox[{
    RowBox[{
     RowBox[{
-     RowBox[{"BNF", "/@", 
+     RowBox[{"CFGTextForm", "/@", 
       RowBox[{"{", 
        RowBox[{"#", ",", 
         RowBox[{"CNF", "@", "#"}]}], "}"}]}], "&"}], "/@", "G"}], ",", 
    RowBox[{"Alignment", "\[Rule]", "Left"}], ",", 
    RowBox[{"Frame", "\[Rule]", "All"}]}], "]"}]], "Input",
  CellChangeTimes->{{3.636816108156535*^9, 3.636816138383264*^9}, {
-  3.636816198707714*^9, 3.636816286187718*^9}, {3.6368163551456623`*^9, 
-  3.6368163556966934`*^9}, {3.6368163976910954`*^9, 3.6368164865596724`*^9}, {
-  3.636816581741116*^9, 3.6368167683017864`*^9}, {3.6368168672394457`*^9, 
-  3.6368169148151665`*^9}, {3.6368169623868876`*^9, 3.6368169914325485`*^9}, {
-  3.6368170272535977`*^9, 3.636817081929725*^9}, {3.636817256197693*^9, 
-  3.6368173377453566`*^9}, {3.636817456391143*^9, 3.6368175502415113`*^9}, {
-  3.636817580680252*^9, 3.6368175871896243`*^9}, {3.636817637204485*^9, 
-  3.636817747827812*^9}, {3.6368178668416195`*^9, 3.636817925783991*^9}, {
-  3.6368179589078856`*^9, 3.636817979689074*^9}, {3.636818028804883*^9, 
-  3.63681804360073*^9}, {3.6368181295126433`*^9, 3.6368181320907907`*^9}, {
-  3.636818263674317*^9, 3.636818390166552*^9}}],
+   3.636816198707714*^9, 3.636816286187718*^9}, {3.6368163551456623`*^9, 
+   3.6368163556966934`*^9}, {3.6368163976910954`*^9, 
+   3.6368164865596724`*^9}, {3.636816581741116*^9, 3.6368167683017864`*^9}, {
+   3.6368168672394457`*^9, 3.6368169148151665`*^9}, {3.6368169623868876`*^9, 
+   3.6368169914325485`*^9}, {3.6368170272535977`*^9, 3.636817081929725*^9}, {
+   3.636817256197693*^9, 3.6368173377453566`*^9}, {3.636817456391143*^9, 
+   3.6368175502415113`*^9}, {3.636817580680252*^9, 3.6368175871896243`*^9}, {
+   3.636817637204485*^9, 3.636817747827812*^9}, {3.6368178668416195`*^9, 
+   3.636817925783991*^9}, {3.6368179589078856`*^9, 3.636817979689074*^9}, {
+   3.636818028804883*^9, 3.63681804360073*^9}, {3.6368181295126433`*^9, 
+   3.6368181320907907`*^9}, {3.636818263674317*^9, 3.636818390166552*^9}, 
+   3.663578517788406*^9, 3.6635786281386557`*^9}],
 
 Cell[BoxData[
  TagBox[GridBox[{
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] ABbaDS|S|Cb|A|C|aJ\"\>", 
-       ",", "\<\"A \[Rule] S|BC|b|F|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"B \[Rule] ac|ac|ac\"\>", ",", "\<\"C \[Rule] S|D\"\>", 
-       ",", "\<\"E \[Rule] abS|cc\"\>", ",", "\<\"F \[Rule] A\"\>", 
-       ",", "\<\"G \[Rule] H|H|G\"\>", ",", "\<\"H \[Rule] G|I|H|abc\"\>", 
-       ",", "\<\"J \[Rule] J\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]ABbaDS|S|Cb|A|C|aJ\"\>", 
+       ",", "\<\"A\[Rule]S|BC|b|F|\[CurlyEpsilon]\"\>", 
+       ",", "\<\"B\[Rule]ac|ac|ac\"\>", ",", "\<\"C\[Rule]S|D\"\>", 
+       ",", "\<\"E\[Rule]abS|cc\"\>", ",", "\<\"F\[Rule]A\"\>", 
+       ",", "\<\"G\[Rule]H|H|G\"\>", ",", "\<\"H\[Rule]G|I|H|abc\"\>", 
+       ",", "\<\"J\[Rule]J\"\>"}], "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"\[FormalCapitalC] \[Rule] c\"\>", 
-       ",", "\<\"B \[Rule] \[FormalCapitalA]\[FormalCapitalC]\"\>", 
-       ",", "\<\"C \[Rule] \[FormalCapitalA]\[FormalCapitalC]|b|BC|C\
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", 
+       ",", "\<\"\[FormalCapitalC]\[Rule]c\"\>", 
+       ",", "\<\"B\[Rule]\[FormalCapitalA]\[FormalCapitalC]\"\>", 
+       ",", "\<\"C\[Rule]\[FormalCapitalA]\[FormalCapitalC]|b|BC|C\
 \[FormalCapitalB]\"\>", 
-       ",", "\<\"S \[Rule] \[FormalCapitalA]\[FormalCapitalC]|b|BC|C\
+       ",", "\<\"S\[Rule]\[FormalCapitalA]\[FormalCapitalC]|b|BC|C\
 \[FormalCapitalB]\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] a|Xb|aYa\"\>", 
-       ",", "\<\"X \[Rule] Y|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"Y \[Rule] b|X\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]a|Xb|aYa\"\>", 
+       ",", "\<\"X\[Rule]Y|\[CurlyEpsilon]\"\>", ",", "\<\"Y\[Rule]b|X\"\>"}],
+       "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"S \[Rule] a|\[FormalCapitalA]\[FormalCapitalA]|\
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", 
+       ",", "\<\"S\[Rule]a|\[FormalCapitalA]\[FormalCapitalA]|\
 \[FormalCapitalA]Y|b|X\[FormalCapitalB]\"\>", 
-       ",", "\<\"\[FormalCapitalC] \[Rule] \[FormalCapitalA]\[FormalCapitalC]\
-\"\>", ",", "\<\"X \[Rule] b\"\>", ",", "\<\"Y \[Rule] b\"\>"}], "}"}]},
+       ",", "\<\"\[FormalCapitalC]\[Rule]\[FormalCapitalA]\[FormalCapitalC]\"\
+\>", ",", "\<\"X\[Rule]b\"\>", ",", "\<\"Y\[Rule]b\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] SS|AB|b\"\>", ",", "\<\"B \[Rule] SB|b\"\>", 
-       ",", "\<\"A \[Rule] a\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]SS|AB|b\"\>", ",", "\<\"B\[Rule]SB|b\"\>", 
+       ",", "\<\"A\[Rule]a\"\>"}], "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", ",", "\<\"A \[Rule] a\"\>",
-        ",", "\<\"B \[Rule] b|SB\"\>", ",", "\<\"S \[Rule] AB|b|SS\"\>"}], 
-      "}"}]},
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", ",", "\<\"A\[Rule]a\"\>", 
+       ",", "\<\"B\[Rule]b|SB\"\>", ",", "\<\"S\[Rule]AB|b|SS\"\>"}], "}"}]},
     {
-     RowBox[{"{", "\<\"S \[Rule] aSa|bSb|\[CurlyEpsilon]\"\>", "}"}], 
+     RowBox[{"{", "\<\"S\[Rule]aSa|bSb|\[CurlyEpsilon]\"\>", "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"S \[Rule] \[FormalCapitalA]\[FormalCapitalA]|\
-\[FormalCapitalA]S|\[FormalCapitalB]\[FormalCapitalB]|\[FormalCapitalB]S\"\>",
-        ",", "\<\"\[FormalCapitalC] \[Rule] \
-\[FormalCapitalA]\[FormalCapitalC]\"\>", 
-       ",", "\<\"\[FormalCapitalD] \[Rule] \[FormalCapitalB]\[FormalCapitalD]\
-\"\>"}], "}"}]},
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", 
+       ",", "\<\"S\[Rule]\[FormalCapitalA]\[FormalCapitalA]|\[FormalCapitalA]\
+S|\[FormalCapitalB]\[FormalCapitalB]|\[FormalCapitalB]S\"\>", 
+       ",", "\<\"\[FormalCapitalC]\[Rule]\[FormalCapitalA]\[FormalCapitalC]\"\
+\>", ",", \
+"\<\"\[FormalCapitalD]\[Rule]\[FormalCapitalB]\[FormalCapitalD]\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] a|Xb|aYa\"\>", 
-       ",", "\<\"X \[Rule] Y|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"Y \[Rule] b|X\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]a|Xb|aYa\"\>", 
+       ",", "\<\"X\[Rule]Y|\[CurlyEpsilon]\"\>", ",", "\<\"Y\[Rule]b|X\"\>"}],
+       "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"S \[Rule] a|\[FormalCapitalA]\[FormalCapitalA]|\
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", 
+       ",", "\<\"S\[Rule]a|\[FormalCapitalA]\[FormalCapitalA]|\
 \[FormalCapitalA]Y|b|X\[FormalCapitalB]\"\>", 
-       ",", "\<\"\[FormalCapitalC] \[Rule] \[FormalCapitalA]\[FormalCapitalC]\
-\"\>", ",", "\<\"X \[Rule] b\"\>", ",", "\<\"Y \[Rule] b\"\>"}], "}"}]},
+       ",", "\<\"\[FormalCapitalC]\[Rule]\[FormalCapitalA]\[FormalCapitalC]\"\
+\>", ",", "\<\"X\[Rule]b\"\>", ",", "\<\"Y\[Rule]b\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] XY\"\>", ",", "\<\"X \[Rule] Zb\"\>", 
-       ",", "\<\"Y \[Rule] bW\"\>", ",", "\<\"Z \[Rule] AB\"\>", 
-       ",", "\<\"W \[Rule] Z\"\>", 
-       ",", "\<\"A \[Rule] aA|bA|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"B \[Rule] Ba|Bb|\[CurlyEpsilon]\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]XY\"\>", ",", "\<\"X\[Rule]Zb\"\>", 
+       ",", "\<\"Y\[Rule]bW\"\>", ",", "\<\"Z\[Rule]AB\"\>", 
+       ",", "\<\"W\[Rule]Z\"\>", ",", "\<\"A\[Rule]aA|bA|\[CurlyEpsilon]\"\>",
+        ",", "\<\"B\[Rule]Ba|Bb|\[CurlyEpsilon]\"\>"}], "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"A \[Rule] a|\[FormalCapitalA]A|b|\[FormalCapitalB]A\"\>", 
-       ",", "\<\"B \[Rule] a|b|B\[FormalCapitalA]|B\[FormalCapitalB]\"\>", 
-       ",", "\<\"S \[Rule] XY\"\>", 
-       ",", "\<\"W \[Rule] a|\[FormalCapitalA]A|AB|b|\[FormalCapitalB]A|B\
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", 
+       ",", "\<\"A\[Rule]a|\[FormalCapitalA]A|b|\[FormalCapitalB]A\"\>", 
+       ",", "\<\"B\[Rule]a|b|B\[FormalCapitalA]|B\[FormalCapitalB]\"\>", 
+       ",", "\<\"S\[Rule]XY\"\>", 
+       ",", "\<\"W\[Rule]a|\[FormalCapitalA]A|AB|b|\[FormalCapitalB]A|B\
 \[FormalCapitalA]|B\[FormalCapitalB]\"\>", 
-       ",", "\<\"X \[Rule] b|Z\[FormalCapitalB]\"\>", 
-       ",", "\<\"Y \[Rule] b|\[FormalCapitalB]W\"\>", 
-       ",", "\<\"Z \[Rule] a|\[FormalCapitalA]A|AB|b|\[FormalCapitalB]A|B\
+       ",", "\<\"X\[Rule]b|Z\[FormalCapitalB]\"\>", 
+       ",", "\<\"Y\[Rule]b|\[FormalCapitalB]W\"\>", 
+       ",", "\<\"Z\[Rule]a|\[FormalCapitalA]A|AB|b|\[FormalCapitalB]A|B\
 \[FormalCapitalA]|B\[FormalCapitalB]\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] Xab|YY|aX|ZYX\"\>", 
-       ",", "\<\"X \[Rule] Za|bZ|ZZ|Yb\"\>", 
-       ",", "\<\"Y \[Rule] Ya|XY|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"Z \[Rule] aX|YYY\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]Xab|YY|aX|ZYX\"\>", 
+       ",", "\<\"X\[Rule]Za|bZ|ZZ|Yb\"\>", 
+       ",", "\<\"Y\[Rule]Ya|XY|\[CurlyEpsilon]\"\>", 
+       ",", "\<\"Z\[Rule]aX|YYY\"\>"}], "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"S \[Rule] a|\[FormalCapitalA]\[FormalCapitalB]|\
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", 
+       ",", "\<\"S\[Rule]a|\[FormalCapitalA]\[FormalCapitalB]|\
 \[FormalCapitalA]X|b|\[FormalCapitalB]Z|X\[FormalCapitalA]|XY|Y\
 \[FormalCapitalA]|Y\[FormalCapitalB]|YX|YY|YY|Z\[FormalCapitalA]|ZX|ZY|ZY|ZZ\"\
-\>", ",", "\<\"\[FormalCapitalC] \[Rule] \[FormalCapitalB]\[FormalCapitalC]\"\
-\>", ",", "\<\"\[FormalCapitalD] \[Rule] Y\[FormalCapitalD]\"\>", 
-       ",", "\<\"\[FormalCapitalE] \[Rule] X\[FormalCapitalE]\"\>", 
-       ",", "\<\"X \[Rule] a|\[FormalCapitalA]X|b|\[FormalCapitalB]Z|XY|Y\
+\>", ",", \
+"\<\"\[FormalCapitalC]\[Rule]\[FormalCapitalB]\[FormalCapitalC]\"\>", 
+       ",", "\<\"\[FormalCapitalD]\[Rule]Y\[FormalCapitalD]\"\>", 
+       ",", "\<\"\[FormalCapitalE]\[Rule]X\[FormalCapitalE]\"\>", 
+       ",", "\<\"X\[Rule]a|\[FormalCapitalA]X|b|\[FormalCapitalB]Z|XY|Y\
 \[FormalCapitalA]|Y\[FormalCapitalB]|YY|YY|Z\[FormalCapitalA]|ZZ\"\>", 
-       ",", "\<\"\[FormalCapitalF] \[Rule] Y\[FormalCapitalF]\"\>", 
-       ",", "\<\"Y \[Rule] a|\[FormalCapitalA]X|b|\[FormalCapitalB]Z|XY|Y\
+       ",", "\<\"\[FormalCapitalF]\[Rule]Y\[FormalCapitalF]\"\>", 
+       ",", "\<\"Y\[Rule]a|\[FormalCapitalA]X|b|\[FormalCapitalB]Z|XY|Y\
 \[FormalCapitalA]|Y\[FormalCapitalB]|YY|YY|Z\[FormalCapitalA]|ZZ\"\>", 
-       ",", "\<\"\[FormalCapitalG] \[Rule] Y\[FormalCapitalG]\"\>", 
-       ",", "\<\"Z \[Rule] a|\[FormalCapitalA]X|b|\[FormalCapitalB]Z|XY|Y\
+       ",", "\<\"\[FormalCapitalG]\[Rule]Y\[FormalCapitalG]\"\>", 
+       ",", "\<\"Z\[Rule]a|\[FormalCapitalA]X|b|\[FormalCapitalB]Z|XY|Y\
 \[FormalCapitalA]|Y\[FormalCapitalB]|YY|YY|Z\[FormalCapitalA]|ZZ\"\>", 
-       ",", "\<\"\[FormalCapitalH] \[Rule] Y\[FormalCapitalH]\"\>"}], "}"}]},
+       ",", "\<\"\[FormalCapitalH]\[Rule]Y\[FormalCapitalH]\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] A|bb\"\>", ",", "\<\"A \[Rule] B|b\"\>", 
-       ",", "\<\"B \[Rule] S|a\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]A|bb\"\>", ",", "\<\"A\[Rule]B|b\"\>", 
+       ",", "\<\"B\[Rule]S|a\"\>"}], "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"S \[Rule] a|b|\[FormalCapitalB]\[FormalCapitalB]\"\>"}], 
-      "}"}]},
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", 
+       ",", "\<\"S\[Rule]a|b|\[FormalCapitalB]\[FormalCapitalB]\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] XY\"\>", ",", "\<\"X \[Rule] XX|A\"\>", 
-       ",", "\<\"Y \[Rule] YY|B\"\>", ",", "\<\"A \[Rule] a\"\>", 
-       ",", "\<\"B \[Rule] b\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]XY\"\>", ",", "\<\"X\[Rule]XX|A\"\>", 
+       ",", "\<\"Y\[Rule]YY|B\"\>", ",", "\<\"A\[Rule]a\"\>", 
+       ",", "\<\"B\[Rule]b\"\>"}], "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"S \[Rule] XY\"\>", ",", "\<\"X \[Rule] a|XX\"\>", 
-       ",", "\<\"Y \[Rule] b|YY\"\>"}], "}"}]},
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", ",", "\<\"S\[Rule]XY\"\>", 
+       ",", "\<\"X\[Rule]a|XX\"\>", ",", "\<\"Y\[Rule]b|YY\"\>"}], "}"}]},
     {
-     RowBox[{"{", "\<\"S \[Rule] aSa|bSb|a|b|\[CurlyEpsilon]\"\>", "}"}], 
+     RowBox[{"{", "\<\"S\[Rule]aSa|bSb|a|b|\[CurlyEpsilon]\"\>", "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"S \[Rule] a|\[FormalCapitalA]\[FormalCapitalA]|\
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", 
+       ",", "\<\"S\[Rule]a|\[FormalCapitalA]\[FormalCapitalA]|\
 \[FormalCapitalA]S|b|\[FormalCapitalB]\[FormalCapitalB]|\[FormalCapitalB]S\"\>\
-", ",", "\<\"\[FormalCapitalC] \[Rule] \
-\[FormalCapitalA]\[FormalCapitalC]\"\>", 
-       ",", "\<\"\[FormalCapitalD] \[Rule] \[FormalCapitalB]\[FormalCapitalD]\
-\"\>"}], "}"}]},
+", ",", "\<\"\[FormalCapitalC]\[Rule]\[FormalCapitalA]\[FormalCapitalC]\"\>", 
+       ",", "\<\"\[FormalCapitalD]\[Rule]\[FormalCapitalB]\[FormalCapitalD]\"\
+\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] bA|aB\"\>", ",", "\<\"A \[Rule] bAA|aS|a\"\>", 
-       ",", "\<\"B \[Rule] aBB|bS|b\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]bA|aB\"\>", ",", "\<\"A\[Rule]bAA|aS|a\"\>", 
+       ",", "\<\"B\[Rule]aBB|bS|b\"\>"}], "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", 
-       ",", "\<\"A \[Rule] a|\[FormalCapitalA]S|\[FormalCapitalB]A\"\>", 
-       ",", "\<\"\[FormalCapitalC] \[Rule] A\[FormalCapitalC]\"\>", 
-       ",", "\<\"\[FormalCapitalD] \[Rule] B\[FormalCapitalD]\"\>", 
-       ",", "\<\"B \[Rule] \[FormalCapitalA]B|b|\[FormalCapitalB]S\"\>", 
-       ",", "\<\"S \[Rule] \[FormalCapitalA]B|\[FormalCapitalB]A\"\>"}], 
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", 
+       ",", "\<\"A\[Rule]a|\[FormalCapitalA]S|\[FormalCapitalB]A\"\>", 
+       ",", "\<\"\[FormalCapitalC]\[Rule]A\[FormalCapitalC]\"\>", 
+       ",", "\<\"\[FormalCapitalD]\[Rule]B\[FormalCapitalD]\"\>", 
+       ",", "\<\"B\[Rule]\[FormalCapitalA]B|b|\[FormalCapitalB]S\"\>", 
+       ",", "\<\"S\[Rule]\[FormalCapitalA]B|\[FormalCapitalB]A\"\>"}], 
       "}"}]},
     {
-     RowBox[{"{", "\<\"S \[Rule] aaaaS|aaaa\"\>", "}"}], 
+     RowBox[{"{", "\<\"S\[Rule]aaaaS|aaaa\"\>", "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] \[FormalCapitalA]\[FormalCapitalB]\
-\"\>", ",", "\<\"\[FormalCapitalC] \[Rule] \[FormalCapitalA]\[FormalCapitalC]\
-\"\>", ",", "\<\"S \[Rule] \[FormalCapitalA]\[FormalCapitalA]|\
-\[FormalCapitalA]\[FormalCapitalA]\"\>", 
-       ",", "\<\"\[FormalCapitalD] \[Rule] \[FormalCapitalA]\[FormalCapitalD]\
-\"\>", ",", "\<\"\[FormalCapitalE] \[Rule] \[FormalCapitalA]\[FormalCapitalE]\
-\"\>", ",", "\<\"\[FormalCapitalF] \[Rule] S\[FormalCapitalF]\"\>"}], "}"}]},
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]\[FormalCapitalA]\[FormalCapitalB]\"\
+\>", ",", \
+"\<\"\[FormalCapitalC]\[Rule]\[FormalCapitalA]\[FormalCapitalC]\"\>", 
+       ",", "\<\"S\[Rule]\[FormalCapitalA]\[FormalCapitalA]|\[FormalCapitalA]\
+\[FormalCapitalA]\"\>", 
+       ",", "\<\"\[FormalCapitalD]\[Rule]\[FormalCapitalA]\[FormalCapitalD]\"\
+\>", ",", \
+"\<\"\[FormalCapitalE]\[Rule]\[FormalCapitalA]\[FormalCapitalE]\"\>", 
+       ",", "\<\"\[FormalCapitalF]\[Rule]S\[FormalCapitalF]\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] ABABA\"\>", 
-       ",", "\<\"A \[Rule] a|\[CurlyEpsilon]\"\>", 
-       ",", "\<\"B \[Rule] b|\[CurlyEpsilon]\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]ABABA\"\>", 
+       ",", "\<\"A\[Rule]a|\[CurlyEpsilon]\"\>", 
+       ",", "\<\"B\[Rule]b|\[CurlyEpsilon]\"\>"}], "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", ",", "\<\"A \[Rule] a\"\>",
-        ",", "\<\"B \[Rule] b\"\>", 
-       ",", "\<\"S \[Rule] \
-a|AA|AA|AA|AA|AB|AB|AB|AB|AB|AB|AB|b|BA|BA|BA|BA|BB|BB\"\>", 
-       ",", "\<\"\[FormalCapitalC] \[Rule] A\[FormalCapitalC]\"\>", 
-       ",", "\<\"\[FormalCapitalD] \[Rule] B\[FormalCapitalD]\"\>", 
-       ",", "\<\"\[FormalCapitalE] \[Rule] B\[FormalCapitalE]\"\>", 
-       ",", "\<\"\[FormalCapitalF] \[Rule] A\[FormalCapitalF]\"\>", 
-       ",", "\<\"\[FormalCapitalG] \[Rule] A\[FormalCapitalG]\"\>", 
-       ",", "\<\"\[FormalCapitalH] \[Rule] A\[FormalCapitalH]\"\>", 
-       ",", "\<\"\[FormalCapitalI] \[Rule] A\[FormalCapitalI]\"\>", 
-       ",", "\<\"\[FormalCapitalJ] \[Rule] A\[FormalCapitalJ]\"\>", 
-       ",", "\<\"\[FormalCapitalK] \[Rule] B\[FormalCapitalK]\"\>", 
-       ",", "\<\"\[FormalCapitalL] \[Rule] A\[FormalCapitalL]\"\>", 
-       ",", "\<\"\[FormalCapitalM] \[Rule] B\[FormalCapitalM]\"\>", 
-       ",", "\<\"\[FormalCapitalN] \[Rule] A\[FormalCapitalN]\"\>", 
-       ",", "\<\"\[FormalCapitalO] \[Rule] B\[FormalCapitalO]\"\>", 
-       ",", "\<\"\[FormalCapitalP] \[Rule] B\[FormalCapitalP]\"\>", 
-       ",", "\<\"\[FormalCapitalQ] \[Rule] A\[FormalCapitalQ]\"\>", 
-       ",", "\<\"\[FormalCapitalR] \[Rule] A\[FormalCapitalR]\"\>", 
-       ",", "\<\"\[FormalCapitalS] \[Rule] B\[FormalCapitalS]\"\>", 
-       ",", "\<\"\[FormalCapitalT] \[Rule] B\[FormalCapitalT]\"\>", 
-       ",", "\<\"\[FormalCapitalU] \[Rule] A\[FormalCapitalU]\"\>", 
-       ",", "\<\"\[FormalCapitalV] \[Rule] A\[FormalCapitalV]\"\>"}], "}"}]},
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", ",", "\<\"A\[Rule]a\"\>", 
+       ",", "\<\"B\[Rule]b\"\>", 
+       ",", "\<\"S\[Rule]a|AA|AA|AA|AA|AB|AB|AB|AB|AB|AB|AB|b|BA|BA|BA|BA|BB|\
+BB\"\>", ",", "\<\"\[FormalCapitalC]\[Rule]A\[FormalCapitalC]\"\>", 
+       ",", "\<\"\[FormalCapitalD]\[Rule]B\[FormalCapitalD]\"\>", 
+       ",", "\<\"\[FormalCapitalE]\[Rule]B\[FormalCapitalE]\"\>", 
+       ",", "\<\"\[FormalCapitalF]\[Rule]A\[FormalCapitalF]\"\>", 
+       ",", "\<\"\[FormalCapitalG]\[Rule]A\[FormalCapitalG]\"\>", 
+       ",", "\<\"\[FormalCapitalH]\[Rule]A\[FormalCapitalH]\"\>", 
+       ",", "\<\"\[FormalCapitalI]\[Rule]A\[FormalCapitalI]\"\>", 
+       ",", "\<\"\[FormalCapitalJ]\[Rule]A\[FormalCapitalJ]\"\>", 
+       ",", "\<\"\[FormalCapitalK]\[Rule]B\[FormalCapitalK]\"\>", 
+       ",", "\<\"\[FormalCapitalL]\[Rule]A\[FormalCapitalL]\"\>", 
+       ",", "\<\"\[FormalCapitalM]\[Rule]B\[FormalCapitalM]\"\>", 
+       ",", "\<\"\[FormalCapitalN]\[Rule]A\[FormalCapitalN]\"\>", 
+       ",", "\<\"\[FormalCapitalO]\[Rule]B\[FormalCapitalO]\"\>", 
+       ",", "\<\"\[FormalCapitalP]\[Rule]B\[FormalCapitalP]\"\>", 
+       ",", "\<\"\[FormalCapitalQ]\[Rule]A\[FormalCapitalQ]\"\>", 
+       ",", "\<\"\[FormalCapitalR]\[Rule]A\[FormalCapitalR]\"\>", 
+       ",", "\<\"\[FormalCapitalS]\[Rule]B\[FormalCapitalS]\"\>", 
+       ",", "\<\"\[FormalCapitalT]\[Rule]B\[FormalCapitalT]\"\>", 
+       ",", "\<\"\[FormalCapitalU]\[Rule]A\[FormalCapitalU]\"\>", 
+       ",", "\<\"\[FormalCapitalV]\[Rule]A\[FormalCapitalV]\"\>"}], "}"}]},
     {
-     RowBox[{"{", "\<\"S \[Rule] SS|a\"\>", "}"}], 
+     RowBox[{"{", "\<\"S\[Rule]SS|a\"\>", "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"S \[Rule] a|SS\"\>"}], "}"}]},
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"S\[Rule]a|SS\"\>"}], "}"}]},
     {
      RowBox[{"{", 
-      RowBox[{"\<\"S \[Rule] SS|AB|b\"\>", ",", "\<\"B \[Rule] SB|b\"\>", 
-       ",", "\<\"A \[Rule] a\"\>"}], "}"}], 
+      RowBox[{"\<\"S\[Rule]SS|AB|b\"\>", ",", "\<\"B\[Rule]SB|b\"\>", 
+       ",", "\<\"A\[Rule]a\"\>"}], "}"}], 
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] b\"\>", ",", "\<\"A \[Rule] a\"\>",
-        ",", "\<\"B \[Rule] b|SB\"\>", ",", "\<\"S \[Rule] AB|b|SS\"\>"}], 
-      "}"}]},
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule]b\"\>", ",", "\<\"A\[Rule]a\"\>", 
+       ",", "\<\"B\[Rule]b|SB\"\>", ",", "\<\"S\[Rule]AB|b|SS\"\>"}], "}"}]},
     {
      RowBox[{
-     "{", "\<\"S \[Rule] (S)|(S*S)|(S+S)|(S\[Rule]S)|(S/S)|(a)|(b)\"\>", 
-      "}"}], 
+     "{", "\<\"S\[Rule](S)|(S*S)|(S+S)|(S\[Rule]S)|(S/S)|(a)|(b)\"\>", "}"}], 
+     
      RowBox[{"{", 
-      RowBox[{"\<\"\[FormalCapitalA] \[Rule] *\"\>", 
-       ",", "\<\"\[FormalCapitalB] \[Rule] (\"\>", 
-       ",", "\<\"\[FormalCapitalC] \[Rule] )\"\>", 
-       ",", "\<\"\[FormalCapitalD] \[Rule] +\"\>", 
-       ",", "\<\"\[FormalCapitalE] \[Rule] /\"\>", 
-       ",", "\<\"\[FormalCapitalF] \[Rule] a\"\>", 
-       ",", "\<\"\[FormalCapitalG] \[Rule] b\"\>", 
-       ",", "\<\"\[FormalCapitalH] \[Rule] \[Rule]\"\>", 
-       ",", "\<\"\[FormalCapitalI] \[Rule] \[FormalCapitalC]\[FormalCapitalI]\
-\"\>", ",", "\<\"S \[Rule] \[FormalCapitalB]\[FormalCapitalF]|\
-\[FormalCapitalB]\[FormalCapitalG]|\[FormalCapitalB]S|\[FormalCapitalB]S|\
-\[FormalCapitalB]S|\[FormalCapitalB]S|\[FormalCapitalB]S\"\>", 
-       ",", "\<\"\[FormalCapitalJ] \[Rule] \[FormalCapitalC]\[FormalCapitalJ]\
-\"\>", ",", "\<\"\[FormalCapitalK] \[Rule] \[FormalCapitalC]\[FormalCapitalK]\
-\"\>", ",", "\<\"\[FormalCapitalL] \[Rule] \[FormalCapitalA]\[FormalCapitalL]\
-\"\>", ",", "\<\"\[FormalCapitalM] \[Rule] S\[FormalCapitalM]\"\>", 
-       ",", "\<\"\[FormalCapitalN] \[Rule] \[FormalCapitalC]\[FormalCapitalN]\
-\"\>", ",", "\<\"\[FormalCapitalO] \[Rule] \[FormalCapitalD]\[FormalCapitalO]\
-\"\>", ",", "\<\"\[FormalCapitalP] \[Rule] S\[FormalCapitalP]\"\>", 
-       ",", "\<\"\[FormalCapitalQ] \[Rule] \[FormalCapitalC]\[FormalCapitalQ]\
-\"\>", ",", "\<\"\[FormalCapitalR] \[Rule] \[FormalCapitalE]\[FormalCapitalR]\
-\"\>", ",", "\<\"\[FormalCapitalS] \[Rule] S\[FormalCapitalS]\"\>", 
-       ",", "\<\"\[FormalCapitalT] \[Rule] \[FormalCapitalC]\[FormalCapitalT]\
-\"\>", ",", "\<\"\[FormalCapitalU] \[Rule] \[FormalCapitalH]\[FormalCapitalU]\
-\"\>", ",", "\<\"\[FormalCapitalV] \[Rule] S\[FormalCapitalV]\"\>", 
-       ",", "\<\"\[FormalCapitalW] \[Rule] \[FormalCapitalC]\[FormalCapitalW]\
-\"\>"}], "}"}]}
+      RowBox[{"\<\"\[FormalCapitalA]\[Rule]*\"\>", 
+       ",", "\<\"\[FormalCapitalB]\[Rule](\"\>", 
+       ",", "\<\"\[FormalCapitalC]\[Rule])\"\>", 
+       ",", "\<\"\[FormalCapitalD]\[Rule]+\"\>", 
+       ",", "\<\"\[FormalCapitalE]\[Rule]/\"\>", 
+       ",", "\<\"\[FormalCapitalF]\[Rule]a\"\>", 
+       ",", "\<\"\[FormalCapitalG]\[Rule]b\"\>", 
+       ",", "\<\"\[FormalCapitalH]\[Rule]\[Rule]\"\>", 
+       ",", "\<\"\[FormalCapitalI]\[Rule]\[FormalCapitalC]\[FormalCapitalI]\"\
+\>", ",", "\<\"S\[Rule]\[FormalCapitalB]\[FormalCapitalF]|\[FormalCapitalB]\
+\[FormalCapitalG]|\[FormalCapitalB]S|\[FormalCapitalB]S|\[FormalCapitalB]S|\
+\[FormalCapitalB]S|\[FormalCapitalB]S\"\>", 
+       ",", "\<\"\[FormalCapitalJ]\[Rule]\[FormalCapitalC]\[FormalCapitalJ]\"\
+\>", ",", \
+"\<\"\[FormalCapitalK]\[Rule]\[FormalCapitalC]\[FormalCapitalK]\"\>", 
+       ",", "\<\"\[FormalCapitalL]\[Rule]\[FormalCapitalA]\[FormalCapitalL]\"\
+\>", ",", "\<\"\[FormalCapitalM]\[Rule]S\[FormalCapitalM]\"\>", 
+       ",", "\<\"\[FormalCapitalN]\[Rule]\[FormalCapitalC]\[FormalCapitalN]\"\
+\>", ",", \
+"\<\"\[FormalCapitalO]\[Rule]\[FormalCapitalD]\[FormalCapitalO]\"\>", 
+       ",", "\<\"\[FormalCapitalP]\[Rule]S\[FormalCapitalP]\"\>", 
+       ",", "\<\"\[FormalCapitalQ]\[Rule]\[FormalCapitalC]\[FormalCapitalQ]\"\
+\>", ",", \
+"\<\"\[FormalCapitalR]\[Rule]\[FormalCapitalE]\[FormalCapitalR]\"\>", 
+       ",", "\<\"\[FormalCapitalS]\[Rule]S\[FormalCapitalS]\"\>", 
+       ",", "\<\"\[FormalCapitalT]\[Rule]\[FormalCapitalC]\[FormalCapitalT]\"\
+\>", ",", \
+"\<\"\[FormalCapitalU]\[Rule]\[FormalCapitalH]\[FormalCapitalU]\"\>", 
+       ",", "\<\"\[FormalCapitalV]\[Rule]S\[FormalCapitalV]\"\>", 
+       ",", "\<\"\[FormalCapitalW]\[Rule]\[FormalCapitalC]\[FormalCapitalW]\"\
+\>"}], "}"}]}
    },
    AutoDelete->False,
    GridBoxAlignment->{"Columns" -> {{Left}}},
@@ -1997,8 +2068,9 @@ a|AA|AA|AA|AA|AB|AB|AB|AB|AB|AB|AB|b|BA|BA|BA|BA|BB|BB\"\>",
    3.636817369076149*^9, 3.6368174896720467`*^9, 3.6368175536237044`*^9, {
    3.6368177408484135`*^9, 3.6368177510839987`*^9}, {3.6368179180025454`*^9, 
    3.6368179287391596`*^9}, {3.6368180214314613`*^9, 3.6368180606347036`*^9}, 
-   3.636818134856949*^9, 3.636818289656803*^9, 3.6368183456460056`*^9}]
-}, Closed]],
+   3.636818134856949*^9, 3.636818289656803*^9, 3.6368183456460056`*^9, 
+   3.663579236689088*^9}]
+}, Open  ]],
 
 Cell[BoxData[{
  RowBox[{"ClearAll", "@", "CKY"}], "\[IndentingNewLine]", 
@@ -2164,7 +2236,8 @@ Cell[BoxData[
    3.6368236836073194`*^9, 3.6368237895923815`*^9, {3.636823836054039*^9, 
    3.636823840474292*^9}, 3.6368239097312527`*^9, {3.636824325874055*^9, 
    3.6368243448741417`*^9}, 3.6368245914252434`*^9, 3.636824905086184*^9, 
-   3.636824949584729*^9, 3.636826128065134*^9, 3.6368268360936313`*^9}]
+   3.636824949584729*^9, 3.636826128065134*^9, 3.6368268360936313`*^9, 
+   3.663579261558769*^9}]
 }, Open  ]],
 
 Cell[BoxData[{
@@ -2408,7 +2481,7 @@ Cell[BoxData[
    3.6368290409187403`*^9, 3.636829052891425*^9}, {3.6368291706351595`*^9, 
    3.6368291878511443`*^9}, 3.6368295053733053`*^9, 3.6368295418473916`*^9, 
    3.6368295957134724`*^9, 3.6368296731168995`*^9, 3.6368297252638826`*^9, 
-   3.636829845279747*^9, 3.6368298841249685`*^9}],
+   3.636829845279747*^9, 3.6368298841249685`*^9, 3.6635792671266127`*^9}],
 
 Cell[BoxData[
  RowBox[{"{", "}"}]], "Output",
@@ -2423,7 +2496,7 @@ Cell[BoxData[
    3.6368290409187403`*^9, 3.636829052891425*^9}, {3.6368291706351595`*^9, 
    3.6368291878511443`*^9}, 3.6368295053733053`*^9, 3.6368295418473916`*^9, 
    3.6368295957134724`*^9, 3.6368296731168995`*^9, 3.6368297252638826`*^9, 
-   3.636829845279747*^9, 3.636829884126969*^9}]
+   3.636829845279747*^9, 3.6368298841249685`*^9, 3.6635792671283503`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2442,7 +2515,7 @@ Cell[BoxData[
            RowBox[{"w", ",", "#"}], "]"}], "\[RightDoubleBracket]"}], "&"}], 
         "@", 
         RowBox[{"CNF", "@", 
-         RowBox[{"Pairs", "@", 
+         RowBox[{"CFGListForm", "@", 
           RowBox[{"{", 
            RowBox[{
            "\"\<S\[Rule]bS\>\"", ",", "\"\<S\[Rule]abaK\>\"", ",", 
@@ -2456,7 +2529,8 @@ Cell[BoxData[
  CellChangeTimes->{{3.6368299639215326`*^9, 3.636830038717811*^9}, {
    3.6368301259948025`*^9, 3.636830242264453*^9}, 3.636830379029276*^9, {
    3.6368304131242256`*^9, 3.636830506301555*^9}, 3.6368308041015882`*^9, {
-   3.6368308486231346`*^9, 3.6368308488031454`*^9}}],
+   3.6368308486231346`*^9, 3.6368308488031454`*^9}, 3.663578506875085*^9, 
+   3.663578628143162*^9}],
 
 Cell[BoxData[
  TagBox[GridBox[{
@@ -2492,7 +2566,8 @@ Cell[BoxData[
  CellChangeTimes->{{3.636830004867875*^9, 3.636830039241841*^9}, {
    3.636830212250736*^9, 3.636830243945549*^9}, 3.6368303803743525`*^9, {
    3.6368304146973157`*^9, 3.6368304322533197`*^9}, {3.6368304884195323`*^9, 
-   3.6368305084026756`*^9}, 3.6368308063907194`*^9, 3.636830855395522*^9}]
+   3.6368305084026756`*^9}, 3.6368308063907194`*^9, 3.636830855395522*^9, 
+   3.6635792696270523`*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2577,7 +2652,7 @@ Cell[BoxData[
   "Grid"]], "Output",
  CellChangeTimes->{{3.636830267874918*^9, 3.636830274309286*^9}, 
    3.6368303396320224`*^9, {3.6368305541692934`*^9, 3.636830597190754*^9}, 
-   3.6368308236127043`*^9, 3.636830876076705*^9}]
+   3.6368308236127043`*^9, 3.636830876076705*^9, 3.66357927395258*^9}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -2597,7 +2672,7 @@ Cell[BoxData[
             RowBox[{"w", ",", "#"}], "]"}], "\[RightDoubleBracket]"}], "&"}], 
          "@", 
          RowBox[{"CNF", "@", 
-          RowBox[{"Pairs", "@", 
+          RowBox[{"CFGListForm", "@", 
            RowBox[{"{", 
             RowBox[{
             "\"\<S \[Rule] SJ\>\"", ",", "\"\<J \[Rule] JS\>\"", ",", 
@@ -2609,7 +2684,7 @@ Cell[BoxData[
       "\"\<baab\>\"", ",", "\"\<abba\>\""}], "}"}]}], ",", 
    RowBox[{"Alignment", "\[Rule]", "Left"}]}], "]"}]], "Input",
  CellChangeTimes->{{3.6368309477818065`*^9, 3.636831046220437*^9}, 
-   3.636831096263299*^9}],
+   3.636831096263299*^9, 3.663578506876601*^9, 3.6635786281475487`*^9}],
 
 Cell[BoxData[
  TagBox[GridBox[{
@@ -2710,9 +2785,9 @@ Cell[BoxData[
    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
   "Grid"]], "Output",
  CellChangeTimes->{{3.636831023982165*^9, 3.636831047252496*^9}, 
-   3.636831147412225*^9}]
+   3.636831147412225*^9, 3.663579276257839*^9}]
 }, Open  ]]
-}, Closed]],
+}, Open  ]],
 
 Cell[CellGroupData[{
 
@@ -3158,11 +3233,11 @@ Cell[BoxData[
   3.6416291178309636`*^9}]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]]
+}, Closed]]
 },
-WindowSize->{778, 640},
-WindowMargins->{{290, Automatic}, {Automatic, 32}},
-FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (December 4, 2014)",
+WindowSize->{1366, 751},
+WindowMargins->{{-3, Automatic}, {0, Automatic}},
+FrontEndVersion->"10.0 for Linux x86 (64-bit) (December 4, 2014)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -3176,137 +3251,139 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[CellGroupData[{
-Cell[580, 22, 126, 1, 62, "Subchapter"],
-Cell[709, 25, 643, 13, 52, "Input",
- InitializationCell->True],
-Cell[1355, 40, 2225, 55, 112, "Input",
- InitializationCell->True],
-Cell[3583, 97, 2845, 66, 232, "Input",
+Cell[558, 20, 736, 16, 55, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[6453, 167, 862, 19, 31, "Input"],
-Cell[7318, 188, 11867, 306, 278, "Output"]
-}, Closed]],
-Cell[19200, 497, 2387, 48, 106, "Input",
+Cell[1319, 40, 126, 1, 63, "Subchapter"],
+Cell[1448, 43, 1123, 38, 114, "Text"],
+Cell[2574, 83, 183, 2, 31, "Text"],
+Cell[2760, 87, 2430, 58, 55, "Input",
+ InitializationCell->True],
+Cell[5193, 147, 3006, 69, 165, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[21612, 549, 1280, 19, 31, "Input"],
-Cell[22895, 570, 759, 11, 31, "Output"]
-}, Closed]],
-Cell[23669, 584, 641, 17, 46, "Input",
- InitializationCell->True],
-Cell[CellGroupData[{
-Cell[24335, 605, 466, 11, 52, "Input"],
-Cell[24804, 618, 163, 3, 31, "Output"],
-Cell[24970, 623, 585, 16, 31, "Output"]
-}, Closed]],
-Cell[25570, 642, 3699, 73, 126, "Input",
- InitializationCell->True],
-Cell[CellGroupData[{
-Cell[29294, 719, 2008, 29, 31, "Input"],
-Cell[31305, 750, 349, 7, 31, "Output"]
-}, Closed]],
-Cell[31669, 760, 3105, 65, 175, "Input",
- InitializationCell->True],
-Cell[CellGroupData[{
-Cell[34799, 829, 1428, 24, 52, "Input"],
-Cell[36230, 855, 1004, 16, 31, "Output"],
-Cell[37237, 873, 845, 14, 31, "Output"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[38119, 892, 441, 10, 25, "Input"],
-Cell[38563, 904, 178, 4, 31, "Output"]
-}, Closed]],
-Cell[38756, 911, 2314, 57, 146, "Input",
- InitializationCell->True],
-Cell[CellGroupData[{
-Cell[41095, 972, 693, 10, 31, "Input"],
-Cell[41791, 984, 1385, 51, 252, "Output"]
-}, Closed]],
-Cell[43191, 1038, 4061, 102, 226, "Input",
- InitializationCell->True],
-Cell[CellGroupData[{
-Cell[47277, 1144, 618, 15, 31, "Input"],
-Cell[47898, 1161, 815, 16, 42, "Output"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[48750, 1182, 468, 13, 25, "Input"],
-Cell[49221, 1197, 461, 11, 42, "Output"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[49719, 1213, 1190, 23, 46, "Input"],
-Cell[50912, 1238, 994, 24, 57, "Output"]
-}, Closed]],
-Cell[51921, 1265, 2208, 51, 186, "Input",
- InitializationCell->True],
-Cell[CellGroupData[{
-Cell[54154, 1320, 620, 16, 52, "Input"],
-Cell[54777, 1338, 922, 25, 31, "Output"]
-}, Closed]],
-Cell[55714, 1366, 2612, 64, 126, "Input",
- InitializationCell->True],
-Cell[CellGroupData[{
-Cell[58351, 1434, 468, 12, 52, "Input"],
-Cell[58822, 1448, 1719, 37, 98, "Output"]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[60578, 1490, 3341, 82, 226, "Input",
- InitializationCell->True],
-Cell[63922, 1574, 2166, 41, 70, "Output"]
+Cell[8224, 220, 862, 19, 32, "Input"],
+Cell[9089, 241, 11915, 306, 326, "Output"]
 }, Open  ]],
-Cell[66103, 1618, 4571, 103, 312, "Input",
+Cell[21019, 550, 2439, 49, 121, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[70699, 1725, 1195, 22, 31, "Input"],
-Cell[71897, 1749, 13069, 250, 600, "Output"]
-}, Closed]],
-Cell[84981, 2002, 3607, 80, 206, "Input",
- InitializationCell->True],
-Cell[CellGroupData[{
-Cell[88613, 2086, 1884, 36, 52, "Input"],
-Cell[90500, 2124, 1658, 42, 87, "Output"]
+Cell[23483, 603, 1280, 19, 32, "Input"],
+Cell[24766, 624, 781, 11, 32, "Output"]
 }, Open  ]],
-Cell[92173, 2169, 5928, 133, 312, "Input",
+Cell[25562, 638, 641, 17, 55, "Input",
  InitializationCell->True],
 Cell[CellGroupData[{
-Cell[98126, 2306, 3551, 74, 152, "Input"],
-Cell[101680, 2382, 1385, 28, 31, "Output"],
-Cell[103068, 2412, 847, 13, 31, "Output"]
+Cell[26228, 659, 466, 11, 55, "Input"],
+Cell[26697, 672, 187, 3, 32, "Output"],
+Cell[26887, 677, 609, 16, 32, "Output"]
+}, Open  ]],
+Cell[27511, 696, 3699, 73, 121, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[31235, 773, 2013, 30, 32, "Input"],
+Cell[33251, 805, 370, 7, 32, "Output"]
+}, Open  ]],
+Cell[33636, 815, 3105, 65, 182, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[36766, 884, 1542, 26, 55, "Input"],
+Cell[38311, 912, 1014, 17, 32, "Output"],
+Cell[39328, 931, 862, 15, 32, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[103952, 2430, 1195, 28, 132, "Input"],
-Cell[105150, 2460, 1111, 34, 102, "Output"]
+Cell[40227, 951, 550, 12, 32, "Input"],
+Cell[40780, 965, 178, 4, 31, "Output"]
+}, Closed]],
+Cell[40973, 972, 2314, 57, 93, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[43312, 1033, 693, 10, 32, "Input"],
+Cell[44008, 1045, 1407, 51, 300, "Output"]
+}, Open  ]],
+Cell[45430, 1099, 4061, 102, 253, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[49516, 1205, 676, 16, 32, "Input"],
+Cell[50195, 1223, 809, 16, 48, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[106298, 2499, 1776, 48, 77, "Input"],
-Cell[108077, 2549, 1049, 30, 122, "Output"]
+Cell[51041, 1244, 528, 14, 32, "Input"],
+Cell[51572, 1260, 474, 12, 48, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[109163, 2584, 995, 27, 112, "Input"],
-Cell[110161, 2613, 4017, 99, 152, "Output"]
+Cell[52083, 1277, 1308, 25, 32, "Input"],
+Cell[53394, 1304, 999, 25, 66, "Output"]
+}, Open  ]],
+Cell[54408, 1332, 2208, 51, 144, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[56641, 1387, 620, 16, 32, "Input"],
+Cell[57264, 1405, 944, 25, 32, "Output"]
+}, Open  ]],
+Cell[58223, 1433, 2612, 64, 121, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[60860, 1501, 524, 13, 32, "Input"],
+Cell[61387, 1516, 1689, 38, 110, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[63113, 1559, 3403, 83, 209, "Input",
+ InitializationCell->True],
+Cell[66519, 1644, 2165, 41, 51, "Output"]
+}, Open  ]],
+Cell[68699, 1688, 4591, 104, 275, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[73315, 1796, 1264, 23, 32, "Input"],
+Cell[74582, 1821, 12727, 250, 613, "Output"]
+}, Open  ]],
+Cell[87324, 2074, 3607, 80, 231, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[90956, 2158, 1884, 36, 32, "Input"],
+Cell[92843, 2196, 1684, 43, 102, "Output"]
+}, Open  ]],
+Cell[94542, 2242, 5928, 133, 231, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[100495, 2379, 3551, 74, 77, "Input"],
+Cell[104049, 2455, 1409, 28, 32, "Output"],
+Cell[105461, 2485, 873, 13, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[106371, 2503, 1249, 29, 99, "Input"],
+Cell[107623, 2534, 1139, 35, 120, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[108799, 2574, 1776, 48, 65, "Input"],
+Cell[110578, 2624, 1070, 30, 117, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[111685, 2659, 1047, 27, 55, "Input"],
+Cell[112735, 2688, 4039, 99, 111, "Output"]
 }, Open  ]]
-}, Closed]],
-Cell[CellGroupData[{
-Cell[114227, 2718, 102, 1, 46, "Subchapter"],
-Cell[114332, 2721, 696, 17, 31, "Text"],
-Cell[CellGroupData[{
-Cell[115053, 2742, 96, 1, 63, "Section"],
-Cell[115152, 2745, 12069, 270, 1212, "Input"],
-Cell[CellGroupData[{
-Cell[127246, 3019, 577, 10, 31, "Input"],
-Cell[127826, 3031, 2803, 42, 52, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[130666, 3078, 236, 6, 31, "Input"],
-Cell[130905, 3086, 1735, 26, 72, "Output"]
+Cell[116823, 2793, 102, 1, 63, "Subchapter"],
+Cell[116928, 2796, 696, 17, 31, "Text"],
+Cell[CellGroupData[{
+Cell[117649, 2817, 96, 1, 64, "Section"],
+Cell[117748, 2820, 12069, 270, 1309, "Input"],
+Cell[CellGroupData[{
+Cell[129842, 3094, 577, 10, 31, "Input"],
+Cell[130422, 3106, 2803, 42, 52, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[132677, 3117, 259, 6, 52, "Input"],
-Cell[132939, 3125, 2003, 32, 92, "Output"]
+Cell[133262, 3153, 236, 6, 31, "Input"],
+Cell[133501, 3161, 1735, 26, 72, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[135273, 3192, 259, 6, 52, "Input"],
+Cell[135535, 3200, 2003, 32, 92, "Output"]
 }, Open  ]]
 }, Open  ]]
-}, Open  ]]
+}, Closed]]
 }
 ]
 *)
